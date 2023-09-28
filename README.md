@@ -24,7 +24,7 @@ docker exec website challenge db seed
 ```
 To initiate the task of fetching all tasks, I have developed a CLI command. However, it can be moved to a Docker Compose command and run in a while loop to ensure that all tasks will execute at their required times. For scheduling the task for the fetch service, you can use the following command:
 ```angular2html
-docker exec website challenge db seed 
+docker exec website challenge feed
 ```
 
 In order to run all tests, following command can be used
@@ -43,4 +43,4 @@ If I had more time, I would like to add below list to the application
 1. Increase the level of logging to capture the status of each job execution. 
 2. Implement more comprehensive exception handling for various situations.
 3. I would like to learn more about access levels and how to develop access levels for executing each job.
-
+4. Configure the database for Celery to capture task execution information more precisely.
