@@ -1,6 +1,8 @@
 ## EventBase Challenge 
 I developed the challenge using the Flask framework and utilized the Celery Python package for executing asynchronous tasks. Celery can work with various message brokers, but for simplicity, I chose to use Redis for this project.\
-For the preparation of each task, we could have had an additional queue and serialized it with the fetch service. However, due to time constraints, I didn't develop a second queue.
+For the preparation of each task, we could have had an additional queue and serialized it with the fetch service. However, due to time constraints, I didn't develop a second queue.\
+I have made the decision to promptly rerun any failed jobs to minimize delays. However, to prevent an excessive accumulation of failing jobs and potential queue congestion, I have implemented a 'max attempt' field for each task. This field dictates the number of retries a task can undergo in case of continuous failures. If a task executes successfully, the attempt count is reset.
+
 ### Database
 This project consists of three tables: task, job, and data. The 'task' table is responsible for storing all information about a single task, including its start time, end time, and the interval for fetching new items.\
 The 'job' table is responsible for storing the status of each task iteration's execution. This allows the user to retrieve the latest data or be informed about the status of the most recent task execution.\
