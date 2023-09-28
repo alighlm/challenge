@@ -1,0 +1,2 @@
+[console_scripts]
+challenge = cli.cli:cli
