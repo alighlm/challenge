@@ -1,42 +1,46 @@
-Flask
+Flask==2.3.3
 
-werkzeug
-
-
-itsdangerous
-markupsafe
-
-jinja2
+werkzeug==2.3.7
 
 
-gunicorn
+itsdangerous==2.1.2
+markupsafe==2.1.3
+
+jinja2==3.1.2
 
 
-pytest
-pytest-cov
-flake8
-mock
+gunicorn==21.2.0
 
 
-Click
-
-Flask-SQLAlchemy
-flask_migrate
-alembic
-
-SQLAlchemy
-sqlalchemy_utils
-
-importlib-metadata
-
-celery[redis]
+pytest==7.4.2
+pytest-cov==4.1.0
+flake8==6.1.0
+mock==5.1.0
 
 
-Faker
+Click==8.1.7
+
+Flask-SQLAlchemy==3.1.1
+flask_migrate==4.0.5
+alembic==1.12.0
+
+SQLAlchemy==2.0.21
+sqlalchemy_utils==0.41.1
+
+importlib-metadata==6.8.0
+
+celery[redis]==5.3.4
 
 
-flask-debugtoolbar
-PyMySQL[rsa]
-pytz
-requests
+Faker==19.6.2
+
+
+flask-debugtoolbar==0.13.1
+flask-smorest==0.42.0
+PyMySQL[rsa]==1.1.0
+pytz==2023.3.post1
+requests==2.31.0
+flask-jwt-extended
+passlib
+flask_webtest
 

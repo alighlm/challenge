@@ -15,7 +15,7 @@ class TaskModel(ResourceMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), nullable=False)
     url = db.Column(db.String(255), nullable=False)
-    parameters = db.Column(db.Text)
+    parameters = db.Column(db.Text, default="{}")
     start_time = db.Column(AwareDateTime())
     end_time = db.Column(AwareDateTime())
     fetch_start_time = db.Column(AwareDateTime(), comment="last fetch start time")
@@ -82,3 +82,11 @@ class TaskModel(ResourceMixin, db.Model):
         query2 = cls.find_all_current_valid_new()
         query3 = cls.find_all_lasttime_failed()
         return query1.union(query2, query3).all()
+
+    @classmethod
+    def reset_attempt(self, task_id: int):
+        task = TaskModel.query.get_or_404(task_id)
+        if task:
+            task.attempt = 0
+            task.save()
+            return True

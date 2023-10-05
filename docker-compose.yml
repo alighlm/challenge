@@ -9,10 +9,13 @@ services:
       - 'redis:/var/lib/redis/data'
     ports:
       - '6379:6379'
+    networks:
+      - challenge-network
 
   website:
     build: .
     container_name: website
+    restart: always
     command: >
       gunicorn -c "python:config.gunicorn" --reload "challenge.app:create_app()"
     env_file:
@@ -21,6 +24,10 @@ services:
       - '.:/challenge'
     ports:
       - '8000:8000'
+    networks:
+      - challenge-network
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:8.1.0
@@ -37,6 +44,8 @@ services:
       - '3306'
     volumes:
       - mysql:/var/lib/mysql
+    networks:
+      - challenge-network
 
   celery:
     build: .
@@ -45,8 +54,18 @@ services:
       - '.env'
     volumes:
       - '.:/challenge'
+    networks:
+      - challenge-network
+    depends_on:
+      - mysql
+      - redis
+
 
 volumes:
   mysql:
   redis:
+
+networks:
+  challenge-network:
+    driver: bridge
 

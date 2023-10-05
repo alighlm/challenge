@@ -1,8 +1,11 @@
 import pytest
 
+from flask_webtest import TestApp
 from challenge.app import create_app
 from challenge.extensions import db as _db
+from challenge.model import UserModel
 from config import settings
+from flask_jwt_extended import create_access_token
 
 
 @pytest.fixture(scope="function")
@@ -14,6 +17,8 @@ def app():
         "TESTING": True,
         "WTF_CSRF_ENABLED": False,
         "SQLALCHEMY_DATABASE_URI": db_uri,
+        "JWT_HEADER_TYPE": "Bearer",
+        "JWT_BLACKLIST_ENABLED": False,
     }
 
     _app = create_app(settings_override=params)

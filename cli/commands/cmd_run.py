@@ -1,3 +1,5 @@
+import time
+
 import click
 
 from challenge.app import create_app
@@ -13,4 +15,6 @@ db.app = app
 @click.command()
 def cli():
     with app.app_context():
-        feed_service()
+        while True:
+            feed_service()
+            time.sleep(1)

@@ -11,7 +11,6 @@ from challenge.model import TaskStatus, JobModel, TaskModel, DataModel
 
 celery = create_celery_app()
 
-
 logger = get_task_logger(__name__)
 
 result = ["Idle", "Started", "Finished", "Failed"]
@@ -22,8 +21,9 @@ def prepair_url(url: str, parameters: Dict[str, str]):
     prepare url, it can be authentication or any thing
     @return:
     """
-
-    return url + parameters["eventfile"]
+    if "eventfile" in parameters:
+        return url + parameters["eventfile"]
+    return url
 
 
 def parse(job_id: int, data: str):
@@ -48,9 +48,10 @@ def handle_finished_task(task_id: int, status: TaskStatus):
     task.save()
 
 
-def handle_finished_job(job: JobModel, status: TaskStatus):
+def handle_finished_job(job: JobModel, status: TaskStatus, response: str = ""):
     job.finished_time = datetime.utcnow().replace(tzinfo=timezone.utc)
     job.status = status
+    job.response = response
     job.save()
 
 
@@ -71,8 +72,10 @@ def fetch_url(task_id: int, url: str, parameters: str):
         parse(job_id=job.id, data=response.text)
 
     except Exception as e:
-        logger.exception("An error occurred during job:{}".format(job.id))
-        handle_finished_job(job, TaskStatus.Failed)
+        logger.exception(
+            "An error occurred during job:{} error message:{}".format(job.id, str(e))
+        )
+        handle_finished_job(job, TaskStatus.Failed, str(e))
         handle_finished_task(task_id, TaskStatus.Failed)
 
     else:

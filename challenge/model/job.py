@@ -46,3 +46,7 @@ class JobModel(ResourceMixin, db.Model):
         self.finished_time = datetime.now()
         self.response = response
         db.session.commit()
+
+    @classmethod
+    def find_last_job_by_task_id(cls, task_id: int):
+        return cls.query.filter_by(task_id=task_id).order_by(cls.id.desc()).first()

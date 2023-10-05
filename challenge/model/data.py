@@ -21,3 +21,7 @@ class DataModel(ResourceMixin, db.Model):
 
     def __init__(self, **kwargs):
         super(DataModel, self).__init__(**kwargs)
+
+    @classmethod
+    def find_by_job_id(cls, job_id: int):
+        return cls.query.filter_by(job_id=job_id).all()
